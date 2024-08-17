@@ -17,6 +17,7 @@ def fetch_snapshots(url, timeout):
         response = requests.get(wb_api_url, params=params, timeout=timeout)
         print(response.status_code)
         print(response.json())
+        return response.json()
     except requests.exceptions.Timeout:
         print("Timeout! 15 Seconds!! Think about your actions...")
         return None
@@ -35,7 +36,7 @@ def pull_snapshot(url, timestamp, dir_name):
         filename = f"{timestamp}_{shaved_url}.html"
         filepath = os.path.join(dir_name, filename)
 
-        with open(filepath, "W", encoding="utf-8") as file:
+        with open(filepath, "w", encoding="utf-8") as file:
             file.write(response.text)
 
         print(f"Downloaded: {filename}")
@@ -43,11 +44,14 @@ def pull_snapshot(url, timestamp, dir_name):
         print(f"Whoopsy Poopsy, I couldn't retrieve {archive_url}: {e}")
 
 def processor(url, dir_name, timeout):
-    os.makedirs(dir_name, exists_ok=True)
+    os.makedirs(dir_name, exist_ok=True)
     snapshots = fetch_snapshots(url, timeout)
     if snapshots:
         for snapshot in snapshots:
             timestamp, url = snapshot
             pull_snapshot(url, timestamp, dir_name)
-        else:
-            print("No snapshots here.. :(   \nidk try again maybe?")
+    else:
+        print("No snapshots here.. :(   \nidk try again maybe?")
+
+if __name__ == "__main__":
+    processor(url, dir_name, timeout)
