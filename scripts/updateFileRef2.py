@@ -1,7 +1,7 @@
 # This script updates HTML file references
 # Unlike updateFileRef.py, this script converts referenced path to files to relative file paths, 
 # as opposed to pointing to archived material
-
+# 
 import os
 import re
 import urllib.parse
