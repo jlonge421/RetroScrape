@@ -1,3 +1,4 @@
+# This script converts existing references in HTML files in a folder to use relative local file paths
 import os
 import re
 
